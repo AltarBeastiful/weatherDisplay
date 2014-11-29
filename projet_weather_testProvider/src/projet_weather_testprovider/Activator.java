@@ -13,7 +13,11 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext context) throws Exception {
 		System.out.println("Starting Weather provider");
-		context.registerService(IWeatherService.class.getName(), new TestWeatherProvider(), null);
+		
+		TestWeatherProvider provider = new TestWeatherProvider();
+		provider.start();
+		
+		context.registerService(IWeatherService.class.getName(), provider, null);
 	}
 	
 	/*

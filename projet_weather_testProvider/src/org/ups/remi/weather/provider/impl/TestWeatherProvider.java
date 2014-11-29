@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.ups.remi.weather.domain.ILocation;
 import org.ups.remi.weather.domain.WeatherType;
@@ -49,24 +50,35 @@ public class TestWeatherProvider extends Thread implements IWeatherService {
 		}
 		
 		listeners.get(location).add(weatherListener);
-		weatherListener.weatherChanged(WeatherType.CLOUDY);
+		
+		updateWeather();
+	}
+	
+	private void updateWeather() {
+		for (ILocation iLocation : locations) {
+			for (IWeatherListener listener : getListeners(iLocation)) {
+				listener.weatherChanged(WeatherType.values()[new Random().nextInt(WeatherType.values().length - 1)]);
+			}
+		}
+	}
+	
+	private List<IWeatherListener> getListeners(ILocation location) {
+		if(!listeners.containsKey(location)) {
+			return new ArrayList<IWeatherListener>();
+		}
+		
+		return listeners.get(location);
 	}
 	
    public void run() {
         System.out.println("Starting testweatherProvider thread!");
-//        try {
-//            while (true) {
-//        		this.
-//            	Thread.sleep(5 * 1000);
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            while (true) {
+        		this.updateWeather();
+            	Thread.sleep(5 * 1000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-
-    public static void main(String args[]) {
-        (new TestWeatherProvider()).start();
-    }
-
-
 }
