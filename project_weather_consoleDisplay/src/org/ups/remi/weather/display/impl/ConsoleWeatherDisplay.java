@@ -1,6 +1,6 @@
 package org.ups.remi.weather.display.impl;
 
-import org.ups.remi.weather.application.IWeatherDisplay;
+import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.domain.ILocation;
 import org.ups.remi.weather.domain.WeatherType;
 

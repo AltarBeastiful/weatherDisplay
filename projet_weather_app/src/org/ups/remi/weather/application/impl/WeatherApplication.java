@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.adaptor.EclipseStarter;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
-import org.ups.remi.weather.application.IWeatherDisplay;
+import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.domain.ILocation;
 import org.ups.remi.weather.domain.WeatherType;
 import org.ups.remi.weather.provider.IWeatherListener;

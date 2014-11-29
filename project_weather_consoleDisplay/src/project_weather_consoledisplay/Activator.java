@@ -2,7 +2,7 @@ package project_weather_consoledisplay;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.ups.remi.weather.application.IWeatherDisplay;
+import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.display.impl.ConsoleWeatherDisplay;
 
 public class Activator implements BundleActivator {

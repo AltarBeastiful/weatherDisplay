@@ -1,4 +1,4 @@
-package org.ups.remi.weather.application;
+package org.ups.remi.weather.display;
 
 import org.ups.remi.weather.domain.ILocation;
 import org.ups.remi.weather.domain.WeatherType;
