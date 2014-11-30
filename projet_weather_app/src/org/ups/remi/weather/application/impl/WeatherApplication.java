@@ -13,16 +13,16 @@ import org.osgi.framework.launch.FrameworkFactory;
 import org.osgi.util.tracker.ServiceTracker;
 import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.domain.ILocation;
-import org.ups.remi.weather.domain.WeatherType;
+import org.ups.remi.weather.domain.IWeatherApplication;
 import org.ups.remi.weather.provider.IWeatherListener;
 import org.ups.remi.weather.provider.IWeatherService;
 
-public class WeatherApplication {
+public class WeatherApplication implements IWeatherApplication {
 
 	private ServiceTracker<IWeatherDisplay, IWeatherDisplay> displayTracker;
 	private ServiceTracker<IWeatherService, IWeatherService> providerTracker;
 	
-	private List<IWeatherListener> listeners;
+	private List<IWeatherListener> listeners; //TODO : can cause problem and useless if listeners are stored in the provider 
 
 	public WeatherApplication(
 			ServiceTracker<IWeatherDisplay, IWeatherDisplay> displayTracker,
@@ -32,8 +32,8 @@ public class WeatherApplication {
 		
 		this.listeners = new ArrayList<IWeatherListener>();
 	}
-
 	
+	@Override
 	public void registerLocation(ILocation location) {
 		if(providerTracker.getService().getListAvailableLocation().contains(location)) {
 			IWeatherListener listener = new WeatherListener(displayTracker, location);
@@ -71,9 +71,9 @@ public class WeatherApplication {
 		    Bundle bundle2 = context.installBundle("file:/tmp/osgi/plugins/projet_weather_app_1.0.0.201411201613.jar");
 		    Bundle bundle4 = context.installBundle("file:/tmp/osgi/plugins/project_weather_consoleDisplay_1.0.0.201411201613.jar");
 		    
+		    bundle2.start();
 		    bundle1.start();
 		    bundle4.start();
-		    bundle2.start();
 		    
 		    System.out.println("finish starting");
 		    
@@ -84,6 +84,18 @@ public class WeatherApplication {
 			e.printStackTrace();
 		} finally {
 		    System.exit(0);
+		}
+	}
+
+	@Override
+	public void refreshAvailableLocations() {
+		List<ILocation> availableLocations = new ArrayList<ILocation>();
+		for (IWeatherService provider : providerTracker.getServices(new IWeatherService[0])) {
+			availableLocations.addAll(provider.getListAvailableLocation());
+		}
+		
+		for (IWeatherDisplay display : displayTracker.getServices(new IWeatherDisplay[0])) {
+			display.display(availableLocations);
 		}
 	}
 

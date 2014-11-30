@@ -75,7 +75,7 @@ public class TestWeatherProvider extends Thread implements IWeatherService {
         try {
             while (true) {
         		this.updateWeather();
-            	Thread.sleep(5 * 1000);
+            	Thread.sleep(2 * 1000);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

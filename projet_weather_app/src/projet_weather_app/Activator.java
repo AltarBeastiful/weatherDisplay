@@ -6,7 +6,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 import org.ups.remi.weather.application.impl.WeatherApplication;
 import org.ups.remi.weather.display.IWeatherDisplay;
-import org.ups.remi.weather.provider.IWeatherListener;
+import org.ups.remi.weather.domain.IWeatherApplication;
 import org.ups.remi.weather.provider.IWeatherService;
 import org.ups.remi.weather.tracker.DisplayTracker;
 import org.ups.remi.weather.tracker.WeatherProviderTracker;
@@ -35,10 +35,10 @@ public class Activator implements BundleActivator {
 		(context, IWeatherDisplay.class.getName(), weatherDisplays);
 		displayTracker.open();
 
-		WeatherApplication app = new WeatherApplication(displayTracker, providerTracker);
-		app.registerLocation(providerTracker.getService().getListAvailableLocation().get(0));
+		IWeatherApplication app = new WeatherApplication(displayTracker, providerTracker);
+		context.registerService(IWeatherApplication.class.getName(), app, null);
 		
-		context.registerService(IWeatherListener.class.getName(), app, null);
+		app.refreshAvailableLocations();
 	}
 
 	/*
