@@ -4,7 +4,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 import org.ups.remi.weather.domain.IWeatherApplication;
-import org.ups.remi.weather.provider.IWeatherService;
+import org.ups.remi.weather.domain.IWeatherService;
 
 public class WeatherProviderTracker implements ServiceTrackerCustomizer<IWeatherService, IWeatherService> {
 

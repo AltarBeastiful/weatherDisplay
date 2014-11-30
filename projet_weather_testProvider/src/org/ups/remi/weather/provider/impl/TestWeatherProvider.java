@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Random;
 
 import org.ups.remi.weather.domain.ILocation;
+import org.ups.remi.weather.domain.IWeatherListener;
+import org.ups.remi.weather.domain.IWeatherService;
 import org.ups.remi.weather.domain.WeatherType;
-import org.ups.remi.weather.provider.IWeatherListener;
-import org.ups.remi.weather.provider.IWeatherService;
 
 
 public class TestWeatherProvider extends Thread implements IWeatherService {

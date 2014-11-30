@@ -1,9 +1,9 @@
-package projet_weather_testprovider;
+package project_weather_openprovider;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.ups.remi.weather.domain.IWeatherService;
-import org.ups.remi.weather.provider.impl.TestWeatherProvider;
+import org.ups.remi.weather.provider.impl.OpenWeatherProvider;
 
 public class Activator implements BundleActivator {
 
@@ -12,9 +12,9 @@ public class Activator implements BundleActivator {
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
-		System.out.println("Starting Weather provider");
+		System.out.println("Hello World!!");
 		
-		TestWeatherProvider provider = new TestWeatherProvider();
+		OpenWeatherProvider provider = new OpenWeatherProvider();
 		provider.start();
 		
 		context.registerService(IWeatherService.class.getName(), provider, null);

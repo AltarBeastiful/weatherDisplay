@@ -1,6 +1,6 @@
-package org.ups.remi.weather.provider;
+package org.ups.remi.weather.domain;
 
-import org.ups.remi.weather.domain.WeatherType;
+
 
 public interface IWeatherListener {
 

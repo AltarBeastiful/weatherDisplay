@@ -1,8 +1,6 @@
-package org.ups.remi.weather.provider;
+package org.ups.remi.weather.domain;
 
 import java.util.List;
-
-import org.ups.remi.weather.domain.ILocation;
 
 public interface IWeatherService {
 

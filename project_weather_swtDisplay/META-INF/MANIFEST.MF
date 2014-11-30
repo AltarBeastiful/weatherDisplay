@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Project_weather_swtDisplay
+Bundle-SymbolicName: project_weather_swtDisplay
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: project_weather_swtdisplay.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: javax.swing,
+ org.osgi.framework;version="1.3.0",
+ org.ups.remi.weather.display,
+ org.ups.remi.weather.domain
+Bundle-ActivationPolicy: lazy

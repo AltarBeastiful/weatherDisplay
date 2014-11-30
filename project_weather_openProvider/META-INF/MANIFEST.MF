@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Projet_weather_testProvider
-Bundle-SymbolicName: projet_weather_testProvider
+Bundle-Name: Project_weather_openProvider
+Bundle-SymbolicName: project_weather_openProvider
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: projet_weather_testprovider.Activator
+Bundle-Activator: project_weather_openprovider.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.osgi.framework;version="1.3.0",
  org.ups.remi.weather.domain
