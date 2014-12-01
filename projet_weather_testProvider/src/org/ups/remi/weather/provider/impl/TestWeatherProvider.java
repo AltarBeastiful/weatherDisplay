@@ -33,6 +33,19 @@ public class TestWeatherProvider extends Thread implements IWeatherService {
 			}
 		});
 		
+		locations.add(new ILocation() {
+			
+			@Override
+			public Float getLongitude() {
+				return 0.5f;
+			}
+			
+			@Override
+			public Float getLatitude() {
+				return 25f;
+			}
+		});
+		
 		listeners = new HashMap<ILocation, List<IWeatherListener>>();
 	}
 

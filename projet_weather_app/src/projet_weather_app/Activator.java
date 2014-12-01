@@ -5,10 +5,10 @@ import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 import org.ups.remi.weather.application.impl.WeatherApplication;
-import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.domain.IWeatherApplication;
+import org.ups.remi.weather.domain.IWeatherDisplay;
 import org.ups.remi.weather.domain.IWeatherService;
-import org.ups.remi.weather.tracker.DisplayTracker;
+import org.ups.remi.weather.tracker.WeatherDisplayTracker;
 import org.ups.remi.weather.tracker.WeatherProviderTracker;
 
 public class Activator implements BundleActivator {
@@ -30,7 +30,7 @@ public class Activator implements BundleActivator {
 		providerTracker.open();
 
 		ServiceTrackerCustomizer<IWeatherDisplay, IWeatherDisplay> weatherDisplays =
-				new DisplayTracker(context);
+				new WeatherDisplayTracker(context);
 		displayTracker = new ServiceTracker<IWeatherDisplay, IWeatherDisplay>
 		(context, IWeatherDisplay.class.getName(), weatherDisplays);
 		displayTracker.open();

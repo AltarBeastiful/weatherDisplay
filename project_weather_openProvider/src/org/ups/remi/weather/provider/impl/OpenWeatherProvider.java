@@ -26,19 +26,8 @@ public class OpenWeatherProvider extends Thread implements IWeatherService {
 	public OpenWeatherProvider() {
 		locations = new ArrayList<ILocation>();
 		
-		locations.add(new ILocation() {
-			
-			@Override
-			public Float getLongitude() {
-				return 1f;
-			}
-			
-			@Override
-			public Float getLatitude() {
-				return 2f;
-			}
-		});
-		
+		//FIXME: we should provide a meaningfull list of location or let the user enter the coordinates. 
+		//This is not the expected behaviour in the current state of the interfaces
 		locations.add(new ILocation() {
 			
 			@Override
@@ -65,6 +54,19 @@ public class OpenWeatherProvider extends Thread implements IWeatherService {
 			}
 		});
 		
+		locations.add(new ILocation() {
+			
+			@Override
+			public Float getLongitude() {
+				return 1.5083300f;
+			}
+			
+			@Override
+			public Float getLatitude() {
+				return 43.5011100f;
+			}
+		});
+		
 		listeners = new HashMap<ILocation, List<IWeatherListener>>();
 		previousWeather = new HashMap<ILocation, WeatherType>();
 	}
@@ -86,120 +88,20 @@ public class OpenWeatherProvider extends Thread implements IWeatherService {
 		
 		updateWeather();
 	}
-	
-//	private void updateWeather() {
-//		for (ILocation iLocation : locations) {
-//			for (IWeatherListener listener : getListeners(iLocation)) {
-//				listener.weatherChanged(WeatherType.values()[new Random().nextInt(WeatherType.values().length - 1)]);
-//			}
-//		}
-//	}
-	
-//	private List<IWeatherListener> getListeners(ILocation location) {
-//		if(!listeners.containsKey(location)) {
-//			return new ArrayList<IWeatherListener>();
-//		}
-//		
-//		return listeners.get(location);
-//	}
-	
-//	/**
-//	 * Va chercher le temps
-//	 */
-//	private void retreiveNewWeather(){
-//		System.out.println("Api OpenWeatherMap is going called");
-//		
-//		
-//		for (ILocation locationService : listeners.keySet()) {
-//			
-//		
-//		URL url = null;
-//		try {
-//			url = new URL("http://api.openweathermap.org/data/2.5/weather?lat="+locationService.getLatitude()+"&lon="+locationService.getLongitude());
-//		
-//			InputStream is = url.openStream();
-//			JsonReader rdr = Json.createReader(is);
-//					
-//			JsonObject obj = rdr.readObject();
-//			int previsionId = obj.getJsonArray("weather").getValuesAs(JsonObject.class).get(0).getJsonNumber("id").intValue();
-//			WeatherType newWeather = this.convertWeatherFromApi(previsionId);
-//			
-//			if(isWeatherChanged(locationService, newWeather)){
-//				previousWeather.put(locationService, newWeather);
-//				
-//				for (IWeatherListener listener : listeners.get(locationService)) {
-//					listener.weatherChanged(newWeather);
-//				}
-//			}
-//			
-//			System.out.println("Id temps trouvé à la location " +locationService.getLatitude()+ " : " + locationService.getLongitude() + " : " + previsionId);
-//			
-//		} catch (IOException e) {
-//			System.out.println("Erreur à l'appel de l'api");
-//		}
-//		}
-//	}
-//	
-//	/**
-//	 * Convertisseur du retour de l'api vers le type utilisé en interne
-//	 * @see http://bugs.openweathermap.org/projects/api/wiki/Weather_Data
-//	 * @param id l'id du temps retourné par l'api
-//	 * @return le type reconnu
-//	 */
-//	private WeatherType convertWeatherFromApi(int id){
-//		
-//		WeatherType toReturn;
-//		
-//		int globalId = (int) Math.floor(id / 100);
-//		
-//		switch(globalId){
-//			case 5: toReturn = WeatherType.SHINY; break;
-//			
-//			case 6: toReturn = WeatherType.RAINY; break;
-//			
-//			case 8: toReturn = WeatherType.CLOUDY; break;
-//			
-//			default: toReturn = WeatherType.UNKNOWN; break;
-//		}
-//		
-//		// Cas particuliers
-//		switch(id){
-//			case 800: toReturn = WeatherType.SHINY; break;	
-//		}
-//		return toReturn;
-//		
-//	}
-	
-	private static WeatherType weatherNameFromId(int id) {
-		if(id >= 200 && id < 300) {
-			return WeatherType.SHOWERS;
-		}
-		else if(id >= 300 && id < 600){
-			return WeatherType.RAINY;
-		}
-		else if(id >= 600 && id < 700){
-			return WeatherType.SNOW;
-		}
-		else if((id >= 700 && id < 800) || id > 802) {
-			return WeatherType.CLOUDY;
-		}
-		else if(id >= 800 && id <= 802) {
-			return WeatherType.SHINY;
-		}
-		return WeatherType.UNKNOWN;
-	}
-
+		
+	/**
+	 * Updates weather for all locations listened
+	 * @author https://github.com/Floki/
+	 */
 	public void updateWeather() {
 		for (ILocation locationService : listeners.keySet()) {
 
 			try {
 				URL urlTmp = new URL("http://api.openweathermap.org/data/2.5/weather?lat="+locationService.getLatitude()+"&lon="+locationService.getLongitude());
-//				System.out.println("URL = " + urlTmp);
 			     
 				BufferedReader in = new BufferedReader(new InputStreamReader(urlTmp.openStream()));
 		
 		        String stringTmp = in.readLine();
-		        
 		        String patternStringWeatherId = "\"weather\":\\[\\{\"id\":([0-9]*),";
 		
 		        Pattern patternWeatherId = Pattern.compile(patternStringWeatherId);
@@ -222,6 +124,32 @@ public class OpenWeatherProvider extends Thread implements IWeatherService {
 				e.printStackTrace();
 			}		
 		}
+	}
+	
+	/**
+	 * Converts OpenWeatherMap weather code in WeatherType 
+	 * 
+	 * @param id OpenWeatherMap weather code
+	 * @return WeatherType corresponding to the weather
+	 * @author https://github.com/Floki/
+	 */
+	private static WeatherType weatherNameFromId(int id) {
+		if(id >= 200 && id < 300) {
+			return WeatherType.SHOWERS;
+		}
+		else if(id >= 300 && id < 600){
+			return WeatherType.RAINY;
+		}
+		else if(id >= 600 && id < 700){
+			return WeatherType.SNOW;
+		}
+		else if((id >= 700 && id < 800) || id > 802) {
+			return WeatherType.CLOUDY;
+		}
+		else if(id >= 800 && id <= 802) {
+			return WeatherType.SHINY;
+		}
+		return WeatherType.UNKNOWN;
 	}
 	
 	private boolean isWeatherChanged(ILocation location, WeatherType newWeather) {

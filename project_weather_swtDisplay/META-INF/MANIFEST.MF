@@ -7,6 +7,5 @@ Bundle-Activator: project_weather_swtdisplay.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.swing,
  org.osgi.framework;version="1.3.0",
- org.ups.remi.weather.display,
  org.ups.remi.weather.domain
 Bundle-ActivationPolicy: lazy

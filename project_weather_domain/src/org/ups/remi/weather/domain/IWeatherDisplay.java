@@ -1,9 +1,6 @@
-package org.ups.remi.weather.display;
+package org.ups.remi.weather.domain;
 
 import java.util.List;
-
-import org.ups.remi.weather.domain.ILocation;
-import org.ups.remi.weather.domain.WeatherType;
 
 
 public interface IWeatherDisplay {

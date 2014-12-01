@@ -16,9 +16,9 @@ import javax.swing.ListSelectionModel;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.domain.ILocation;
 import org.ups.remi.weather.domain.IWeatherApplication;
+import org.ups.remi.weather.domain.IWeatherDisplay;
 import org.ups.remi.weather.domain.WeatherType;
 
 public class SwingWeatherDisplay  extends Thread implements IWeatherDisplay{
@@ -27,31 +27,19 @@ public class SwingWeatherDisplay  extends Thread implements IWeatherDisplay{
 	
 	private JList<ILocation> locationList;
 	private JList<WeatherLocation> weatherList;
-	
 	private DefaultListModel<ILocation> locationModel;
 	private DefaultListModel<WeatherLocation> weatherModel;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingWeatherDisplay window = new SwingWeatherDisplay();
-					window.getFrame().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private BundleContext bundleContext;
 
 	/**
 	 * Create the application.
 	 */
 	public SwingWeatherDisplay() {
 		initialize();
+		
+		this.bundleContext = FrameworkUtil.getBundle(this.getClass())
+				.getBundleContext();
 	}
 
 	/**
@@ -71,58 +59,45 @@ public class SwingWeatherDisplay  extends Thread implements IWeatherDisplay{
 		locationList.setCellRenderer(new LocationCellRenderer());
 		locationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		JButton registerButton = new JButton("Register");
-		registerButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				BundleContext bundleContext = FrameworkUtil.getBundle(this.getClass())
-						.getBundleContext();
-				
-				ServiceReference<IWeatherApplication> app = bundleContext.getServiceReference(IWeatherApplication.class);
-				if(app != null)
-					bundleContext.getService(app).registerLocation((ILocation) locationList.getSelectedValue());	
-			}
-		});
-		
 		weatherList = new JList<WeatherLocation>();
 		getFrame().getContentPane().add(weatherList);
 		weatherModel  = new DefaultListModel<WeatherLocation>();
 		weatherList.setModel(weatherModel);
+
+		JButton registerButton = new JButton("Register");
+		registerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				registerWeather((ILocation) locationList.getSelectedValue());	
+			}
+		});
+		frame.getContentPane().add(registerButton);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshLocationList();
+			}
+		});
+		frame.getContentPane().add(btnRefresh);
+		
 		
 		JLabel label = new JLabel("");
 		frame.getContentPane().add(label);
 		
 		JLabel label_1 = new JLabel("");
 		frame.getContentPane().add(label_1);
-		getFrame().getContentPane().add(registerButton);
-		
-		JButton btnRefresh = new JButton("Refresh");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BundleContext bundleContext = FrameworkUtil.getBundle(this.getClass())
-						.getBundleContext();
-				
-				ServiceReference<IWeatherApplication> app = bundleContext.getServiceReference(IWeatherApplication.class);
-				if(app != null)
-					bundleContext.getService(app).refreshAvailableLocations();	
-			}
-		});
-		frame.getContentPane().add(btnRefresh);
+
 	}
 
 	@Override
 	public void display(WeatherType weather, ILocation location) {
 		WeatherLocation item = new WeatherLocation(weather, location);
-		
-		boolean found = false;
-		for (int i = 0; i < weatherModel.size(); i++) {
-			if(weatherModel.getElementAt(i).location.equals(location)){
-				weatherModel.add(i, item);
-				found = true;
-			}
-		}
-		
-		if(!found){
-			weatherModel.addElement(item);
+
+		int i = weatherModel.lastIndexOf(item);
+		if(i == -1){
+			weatherModel.addElement(item);			
+		}else{
+			weatherModel.set(i, item);			
 		}
 	}
 
@@ -146,7 +121,27 @@ public class SwingWeatherDisplay  extends Thread implements IWeatherDisplay{
 		this.getFrame().setVisible(true);
 	}
 	
+	private void refreshLocationList() {
+		if(app() != null)
+			app().refreshAvailableLocations();	
+	}
 	
+	private void registerWeather(ILocation location) {
+		if(app() != null)
+			app().registerLocation(location);
+	}
+	
+	private IWeatherApplication app() {
+		ServiceReference<IWeatherApplication> app = bundleContext.getServiceReference(IWeatherApplication.class);
+		
+		return bundleContext.getService(app);
+	}
+	
+	/**
+	 * Store the weather and the corresponding location
+	 * @author legaliz_me
+	 *
+	 */
 	private class WeatherLocation {
 		public WeatherType weather;
 		public ILocation location;
@@ -161,6 +156,19 @@ public class SwingWeatherDisplay  extends Thread implements IWeatherDisplay{
 		public String toString() {
 			// TODO Auto-generated method stub
 			return weather.toString() + " at " + location.getLatitude() + ", " + location.getLongitude();
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if(!(obj instanceof WeatherLocation)){
+				return false;
+			}
+			
+			WeatherLocation other = (WeatherLocation) obj;
+			
+			System.out.println(location.equals(other.location));
+			return location.getLatitude().equals(other.location.getLatitude()) && 
+				   location.getLongitude().equals(other.location.getLongitude()) ;
 		}
 	}
 }
