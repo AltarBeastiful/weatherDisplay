@@ -11,11 +11,11 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.launch.Framework;
 import org.osgi.framework.launch.FrameworkFactory;
 import org.osgi.util.tracker.ServiceTracker;
+import org.ups.remi.weather.app.IWeatherApplication;
+import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.domain.ILocation;
-import org.ups.remi.weather.domain.IWeatherApplication;
-import org.ups.remi.weather.domain.IWeatherDisplay;
-import org.ups.remi.weather.domain.IWeatherListener;
-import org.ups.remi.weather.domain.IWeatherService;
+import org.ups.remi.weather.provider.IWeatherListener;
+import org.ups.remi.weather.provider.IWeatherService;
 
 public class WeatherApplication implements IWeatherApplication {
 
@@ -83,14 +83,13 @@ public class WeatherApplication implements IWeatherApplication {
 			Bundle bundle5 = context.installBundle("file:/tmp/osgi/plugins/project_weather_openProvider_1.0.0.201411201613.jar");
 			Bundle bundle1 = context.installBundle("file:/tmp/osgi/plugins/projet_weather_testProvider_1.0.0.201411201613.jar");
 		    Bundle bundle2 = context.installBundle("file:/tmp/osgi/plugins/projet_weather_app_1.0.0.201411201613.jar");
-//		    Bundle bundle4 = context.installBundle("file:/tmp/osgi/plugins/project_weather_consoleDisplay_1.0.0.201411201613.jar");
-		    Bundle bundle3 = context.installBundle("file:/tmp/osgi/plugins/project_weather_domain_1.0.0.201411201613.jar");
+		    Bundle bundle4 = context.installBundle("file:/tmp/osgi/plugins/project_weather_consoleDisplay_1.0.0.201411201613.jar");
 		    Bundle bundle6 = context.installBundle("file:/tmp/osgi/plugins/project_weather_swtDisplay_1.0.0.201411201613.jar");
+		    Bundle bundle3 = context.installBundle("file:/tmp/osgi/plugins/project_weather_domain_1.0.0.201411201613.jar");
 		    
 		    bundle2.start();
 		    bundle1.start();
-//		    bundle4.start();
-		    bundle3.start();
+		    bundle4.start();
 		    bundle5.start();
 		    bundle6.start();
 		    

@@ -12,9 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ups.remi.weather.domain.ILocation;
-import org.ups.remi.weather.domain.IWeatherListener;
-import org.ups.remi.weather.domain.IWeatherService;
 import org.ups.remi.weather.domain.WeatherType;
+import org.ups.remi.weather.provider.IWeatherListener;
+import org.ups.remi.weather.provider.IWeatherService;
 
 
 public class OpenWeatherProvider extends Thread implements IWeatherService {

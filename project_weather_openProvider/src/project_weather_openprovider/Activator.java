@@ -2,7 +2,7 @@ package project_weather_openprovider;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.ups.remi.weather.domain.IWeatherService;
+import org.ups.remi.weather.provider.IWeatherService;
 import org.ups.remi.weather.provider.impl.OpenWeatherProvider;
 
 public class Activator implements BundleActivator {

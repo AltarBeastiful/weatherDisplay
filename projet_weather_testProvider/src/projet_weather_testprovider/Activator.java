@@ -2,7 +2,7 @@ package projet_weather_testprovider;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.ups.remi.weather.domain.IWeatherService;
+import org.ups.remi.weather.provider.IWeatherService;
 import org.ups.remi.weather.provider.impl.TestWeatherProvider;
 
 public class Activator implements BundleActivator {

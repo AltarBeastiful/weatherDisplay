@@ -1,4 +1,6 @@
-package org.ups.remi.weather.domain;
+package org.ups.remi.weather.app;
+
+import org.ups.remi.weather.domain.ILocation;
 
 
 public interface IWeatherApplication {

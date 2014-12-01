@@ -1,4 +1,6 @@
-package org.ups.remi.weather.domain;
+package org.ups.remi.weather.provider;
+
+import org.ups.remi.weather.domain.WeatherType;
 
 
 

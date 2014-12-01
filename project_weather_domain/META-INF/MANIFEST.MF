@@ -4,4 +4,7 @@ Bundle-Name: Project_weather_domain
 Bundle-SymbolicName: project_weather_domain
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.ups.remi.weather.domain
+Export-Package: org.ups.remi.weather.app,
+ org.ups.remi.weather.display,
+ org.ups.remi.weather.domain,
+ org.ups.remi.weather.provider

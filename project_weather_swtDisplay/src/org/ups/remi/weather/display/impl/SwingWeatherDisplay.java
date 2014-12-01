@@ -16,9 +16,9 @@ import javax.swing.ListSelectionModel;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.ups.remi.weather.app.IWeatherApplication;
+import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.domain.ILocation;
-import org.ups.remi.weather.domain.IWeatherApplication;
-import org.ups.remi.weather.domain.IWeatherDisplay;
 import org.ups.remi.weather.domain.WeatherType;
 
 public class SwingWeatherDisplay  extends Thread implements IWeatherDisplay{

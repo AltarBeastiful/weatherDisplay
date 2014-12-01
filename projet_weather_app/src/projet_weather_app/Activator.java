@@ -4,10 +4,10 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
+import org.ups.remi.weather.app.IWeatherApplication;
 import org.ups.remi.weather.application.impl.WeatherApplication;
-import org.ups.remi.weather.domain.IWeatherApplication;
-import org.ups.remi.weather.domain.IWeatherDisplay;
-import org.ups.remi.weather.domain.IWeatherService;
+import org.ups.remi.weather.display.IWeatherDisplay;
+import org.ups.remi.weather.provider.IWeatherService;
 import org.ups.remi.weather.tracker.WeatherDisplayTracker;
 import org.ups.remi.weather.tracker.WeatherProviderTracker;
 

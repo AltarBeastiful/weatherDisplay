@@ -1,10 +1,10 @@
 package org.ups.remi.weather.application.impl;
 
 import org.osgi.util.tracker.ServiceTracker;
+import org.ups.remi.weather.display.IWeatherDisplay;
 import org.ups.remi.weather.domain.ILocation;
-import org.ups.remi.weather.domain.IWeatherDisplay;
-import org.ups.remi.weather.domain.IWeatherListener;
 import org.ups.remi.weather.domain.WeatherType;
+import org.ups.remi.weather.provider.IWeatherListener;
 
 public class WeatherListener implements IWeatherListener {
 	

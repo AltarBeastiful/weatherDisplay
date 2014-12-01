@@ -3,8 +3,8 @@ package org.ups.remi.weather.tracker;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
-import org.ups.remi.weather.domain.IWeatherApplication;
-import org.ups.remi.weather.domain.IWeatherDisplay;
+import org.ups.remi.weather.app.IWeatherApplication;
+import org.ups.remi.weather.display.IWeatherDisplay;
 
 public class WeatherDisplayTracker implements ServiceTrackerCustomizer<IWeatherDisplay, IWeatherDisplay> {
 
